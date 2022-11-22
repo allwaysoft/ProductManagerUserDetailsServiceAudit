@@ -31,7 +31,16 @@
 
                                                                                     <nav class="header-nav ms-auto">
                                                                                         <ul class="d-flex align-items-center">
-                                                                                            <li class="nav-item d-block d-lg-none"> <a class="nav-link nav-icon search-bar-toggle " href="#"> <i class="bi bi-search"></i> </a></li>
+
+                                                                                            <li class="nav-item">
+                                                                                                <a class="nav-link" data-widget="fullscreen" href="#" role="button" >
+                                                                                                    <i class="bi bi-fullscreen" onclick="if (document.fullscreenElement) {
+                                                                                                                document.exitFullscreen();
+                                                                                                            } else {
+                                                                                                                document.documentElement.requestFullscreen();
+                                                                                                            }"></i></i>
+                                                                                                </a>
+                                                                                            </li>
 
 
                                                                                             <li class="nav-item dropdown pe-3">
@@ -50,8 +59,10 @@
                                                                                                     <li> <a href="javascript: document.logoutForm.submit()" class="dropdown-item d-flex align-items-center" > <i class="bi bi-box-arrow-right"></i> <span>注销</span> </a>
                                                                                                     </li>
 
+
                                                                                                 </ul>
                                                                                             </li>
+
                                                                                         </ul>
                                                                                     </nav>
                                                                                 </header>
