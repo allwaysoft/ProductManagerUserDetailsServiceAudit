@@ -21,20 +21,19 @@ public class CustomUserDetailsService implements UserDetailsService {
             throws UsernameNotFoundException {
         User domainUser = userRepository.findByUsername(userName);
 
-        boolean enabled = true;
-        boolean accountNonExpired = true;
-        boolean credentialsNonExpired = true;
-        boolean accountNonLocked = true;
-
-        return new org.springframework.security.core.userdetails.User(
-                domainUser.getUsername(),
-                domainUser.getPassword(),
-                domainUser.isEnabled(),
-                domainUser.isAccountNonExpired(),
-                domainUser.isCredentialsNonExpired(),
-                domainUser.isAccountNonLocked(),
-                getAuthorities(domainUser.getRoles())
-        );
+        if (domainUser != null) {
+            return new org.springframework.security.core.userdetails.User(
+                    domainUser.getUsername(),
+                    domainUser.getPassword(),
+                    domainUser.isEnabled(),
+                    domainUser.isAccountNonExpired(),
+                    domainUser.isCredentialsNonExpired(),
+                    domainUser.isAccountNonLocked(),
+                    getAuthorities(domainUser.getRoles())
+            );
+        }
+//        return null;
+        throw new UsernameNotFoundException("User " + userName + " does not exist");
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(

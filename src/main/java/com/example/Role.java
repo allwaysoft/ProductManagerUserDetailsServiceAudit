@@ -14,12 +14,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.envers.Audited;
 
 @Data
 @Entity
 @DynamicUpdate
 
 @Table(name = "role")
+
+@Audited
 public class Role {
 
     @Id

@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 @Component
 public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
@@ -18,6 +19,8 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
     private UserRepository repository;
     @Autowired
     private UserLoginService userLoginService;
+    @Autowired
+    private LoginLogRepository loginLogRepository;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
@@ -25,6 +28,13 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
         String username = request.getParameter("username");
         User user = repository.getByUsername(username);
         if (user != null) {
+            LoginLog loginLog = new LoginLog();
+            loginLog.setUsername(username);
+            loginLog.setDescription("登录失败");
+            loginLog.setIp(request.getRemoteAddr());
+            loginLog.setEventtime(new Date());
+            loginLog.setSessionid(request.getSession().getId());
+            loginLogRepository.save(loginLog);
             if (user.isEnabled() && user.isAccountNonLocked()) {
                 if (user.getFailedAttempt() < userLoginService.MAX_FAILED_ATTEMPTS - 1) {
                     userLoginService.increaseFailedAttempts(user);

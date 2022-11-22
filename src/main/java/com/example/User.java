@@ -15,11 +15,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.envers.Audited;
 
 @Data
 @Entity
 @DynamicUpdate
-
+@Audited
 public class User {
 
     @Id

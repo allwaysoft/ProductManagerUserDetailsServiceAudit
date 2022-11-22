@@ -1,31 +1,31 @@
 package com.example;
 
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.envers.Audited;
 
 @Data
 @Entity
 @DynamicUpdate
 
-@Table(name = "history")
-@Audited
-public class History {
+public class LoginLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String password;
+    private String username;
 
-    @Override
-    public String toString() {
-        return this.password;
-    }
+    private String description;
+
+    private String ip;
+
+    private String sessionid;
+
+    private Date eventtime;
 
 }

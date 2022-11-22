@@ -39,7 +39,7 @@ public class IndexController {
         AuditQuery query = reader.createQuery()
                 .forRevisionsOfEntity(Product.class, false, true);
 
-        query.add(AuditEntity.revisionProperty("username").eq("admin"));
+//        query.add(AuditEntity.revisionProperty("username").eq("admin"));
         //This return a list of array triplets of changes concerning the specified revision.
         // The array triplet contains the entity, entity revision information and at last the revision type.
         List<Object[]> revs = (List<Object[]>) query.getResultList();
@@ -52,7 +52,7 @@ public class IndexController {
             System.out.println(userRevEntity.getId());
             System.out.println(userRevEntity.getRevisionDate());
             System.out.println(userRevEntity.getUsername());
-            System.out.println(type);
+            System.out.println(type.name());
         }
 
         System.out.println();
