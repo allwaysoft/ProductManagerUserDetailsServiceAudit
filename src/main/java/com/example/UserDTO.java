@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UserDTO {
 
-    private int id;
+    private Long id;
 
     private String email;
     @ValidPassword
@@ -17,8 +17,8 @@ public class UserDTO {
 
     private String homepage;
 
-    private boolean enabled;
+    private Boolean enabled;
 
-    private boolean accountNonLocked;
+    private Boolean accountNonLocked;
 
 }

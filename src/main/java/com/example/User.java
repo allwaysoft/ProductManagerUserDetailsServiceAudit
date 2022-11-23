@@ -25,19 +25,19 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String username;
 
     private String password;
 
-    private boolean enabled = true;
+    private Boolean enabled = true;
 
-    private boolean accountNonExpired = true;
+    private Boolean accountNonExpired = true;
 
-    private boolean credentialsNonExpired = true;
+    private Boolean credentialsNonExpired = true;
 
-    private boolean accountNonLocked = true;
+    private Boolean accountNonLocked = true;
 
     private String email;
 

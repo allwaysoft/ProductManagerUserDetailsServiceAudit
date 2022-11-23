@@ -111,10 +111,10 @@ public class UserService {
         user.setHomepage(userDTO.getHomepage());
         System.out.println(userDTO.getPassword());
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-        user.setEnabled(userDTO.isEnabled());
-        System.out.println("userDTO.getEnabled()=" + userDTO.isEnabled());
-        System.out.println("userDTO.isAccountNonLocked()=" + userDTO.isAccountNonLocked());
-        user.setAccountNonLocked(userDTO.isAccountNonLocked());
+        user.setEnabled(userDTO.getEnabled());
+        System.out.println("userDTO.getEnabled()=" + userDTO.getEnabled());
+        System.out.println("userDTO.isAccountNonLocked()=" + userDTO.getAccountNonLocked());
+        user.setAccountNonLocked(userDTO.getAccountNonLocked());
         Date passwordChangedTime = new Date();
 
         user.setPasswordChangedTime(passwordChangedTime);
@@ -122,7 +122,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User get(Integer id) {
+    public User get(Long id) {
         return userRepository.findById(id).get();
     }
 

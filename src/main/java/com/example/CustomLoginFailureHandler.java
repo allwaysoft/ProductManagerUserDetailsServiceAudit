@@ -35,7 +35,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
             loginLog.setEventtime(new Date());
             loginLog.setSessionid(request.getSession().getId());
             loginLogRepository.save(loginLog);
-            if (user.isEnabled() && user.isAccountNonLocked()) {
+            if (user.getEnabled() && user.getAccountNonLocked()) {
                 if (user.getFailedAttempt() < userLoginService.MAX_FAILED_ATTEMPTS - 1) {
                     userLoginService.increaseFailedAttempts(user);
                 } else {
@@ -44,7 +44,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
                             + " It will be unclocked after 15 minutes");
                     System.out.println(exception);
                 }
-            } else if (!user.isAccountNonLocked()) {
+            } else if (!user.getAccountNonLocked()) {
                 if (userLoginService.unlockWhenTimeExpired(user)) {
                     exception = new LockedException("your account has been unclock ."
                             + " please try to login again");

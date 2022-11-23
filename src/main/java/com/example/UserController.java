@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/user/edit/{id}")
-    public String editUser(@PathVariable("id") Integer id, Model model) {
+    public String editUser(@PathVariable("id") Long id, Model model) {
         User user = userService.get(id);
         List<Role> listRoles = userService.listRoles();
         model.addAttribute("user", user);
@@ -70,19 +70,18 @@ public class UserController {
             repoUser.setUsername(user.getUsername());
             repoUser.setEmail(user.getEmail());
             repoUser.setName(user.getName());
-            repoUser.setEnabled(user.isEnabled());
-            repoUser.setAccountNonLocked(user.isAccountNonLocked());
+            repoUser.setEnabled(user.getEnabled());
+            repoUser.setAccountNonLocked(user.getAccountNonLocked());
             repoUser.setHomepage(user.getHomepage());
             repoUser.setRoles(user.getRoles());
             userRepository.save(repoUser);
         }
 
-
         return "redirect:/user";
     }
 
     @GetMapping("/user/resetpassword/{id}")
-    public String showResetPasswordForm(@PathVariable("id") Integer id, Model model) {
+    public String showResetPasswordForm(@PathVariable("id") Long id, Model model) {
         User user = userRepository.findById(id).orElse(null);
         UserResetPasswordDTO userResetPasswordDTO = new UserResetPasswordDTO();
         if (user != null) {
@@ -109,18 +108,17 @@ public class UserController {
             userRepository.save(repoUser);
         }
 
-
         return "redirect:/user";
     }
 
     @RequestMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable(name = "id") Integer id) {
+    public String deleteUser(@PathVariable(name = "id") Long id) {
         userRepository.deleteById(id);
 
         return "redirect:/user";
     }
 
-@GetMapping("user/info")
+    @GetMapping("user/info")
     public String userProfile(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -131,7 +129,7 @@ public class UserController {
         return "user/user_profile";
     }
 
-@GetMapping("/change/password")
+    @GetMapping("/change/password")
 
     public String changePassword(Model model) {
 
@@ -140,7 +138,7 @@ public class UserController {
 
     }
 
-@PostMapping("/new/password")
+    @PostMapping("/new/password")
     public String
             newPassword(@Valid @ModelAttribute("userDTO") UserChangePasswordDTO userChangePasswordDTO, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {

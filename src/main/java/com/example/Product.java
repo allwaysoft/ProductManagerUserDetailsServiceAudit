@@ -23,6 +23,6 @@ public class Product {
     private String name;
     private String brand;
     private String madein;
-    private float price;
+    private Float price;
 
 }

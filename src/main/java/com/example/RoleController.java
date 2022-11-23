@@ -33,7 +33,7 @@ public class RoleController {
     }
 
     @GetMapping("/role/edit/{id}")
-    public String editRole(@PathVariable("id") Integer id, Model model) {
+    public String editRole(@PathVariable("id") Long id, Model model) {
         Role role = roleRepository.findById(id).orElse(null);
         List<Permission> listPermissions = permissionRepository.findAll();
         model.addAttribute("role", role);
@@ -49,7 +49,7 @@ public class RoleController {
     }
 
     @RequestMapping("/role/delete/{id}")
-    public String deleteRole(@PathVariable(name = "id") Integer id) {
+    public String deleteRole(@PathVariable(name = "id") Long id) {
         roleRepository.deleteById(id);
 
         return "redirect:/role";
