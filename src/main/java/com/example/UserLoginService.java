@@ -21,23 +21,20 @@ public class UserLoginService {
 //    private static final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000; // 24 hours
     private static final long LOCK_TIME_DURATION = 5 * 60 * 1000; // 5 mins
 
-    @Autowired
-    private UserRepository repo;
-
     public void increaseFailedAttempts(User user) {
         int newFailAttempts = user.getFailedAttempt() + 1;
-        repo.updateFailedAttempts(newFailAttempts, user.getUsername());
+        userRepository.updateFailedAttempts(newFailAttempts, user.getUsername());
     }
 
     public void resetFailedAttempts(String username) {
-        repo.updateFailedAttempts(0, username);
+        userRepository.updateFailedAttempts(0, username);
     }
 
     public void lock(User user) {
         user.setAccountNonLocked(false);
         user.setLockTime(new Date());
 
-        repo.save(user);
+        userRepository.save(user);
     }
 
     public boolean unlockWhenTimeExpired(User user) {
@@ -49,7 +46,7 @@ public class UserLoginService {
             user.setLockTime(null);
             user.setFailedAttempt(0);
 
-            repo.save(user);
+            userRepository.save(user);
 
             return true;
         }

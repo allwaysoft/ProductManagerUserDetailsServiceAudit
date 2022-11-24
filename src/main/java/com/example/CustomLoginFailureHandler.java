@@ -16,7 +16,7 @@ import java.util.Date;
 public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
     @Autowired
     private UserLoginService userLoginService;
     @Autowired
@@ -26,7 +26,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception)
             throws IOException, ServletException {
         String username = request.getParameter("username");
-        User user = repository.getByUsername(username);
+        User user = userRepository.getByUsername(username);
         if (user != null) {
             LoginLog loginLog = new LoginLog();
             loginLog.setUsername(username);
@@ -37,12 +37,15 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
             loginLogRepository.save(loginLog);
             if (user.getEnabled() && user.getAccountNonLocked()) {
                 if (user.getFailedAttempt() < userLoginService.MAX_FAILED_ATTEMPTS - 1) {
+                    System.out.println("user.getFailedAttempt()=" + user.getFailedAttempt());
                     userLoginService.increaseFailedAttempts(user);
                 } else {
+
                     userLoginService.lock(user);
                     exception = new LockedException("your account has been locked due to 3 failed attempt"
                             + " It will be unclocked after 15 minutes");
                     System.out.println(exception);
+                    System.out.println("userLoginService.lock(user)");
                 }
             } else if (!user.getAccountNonLocked()) {
                 if (userLoginService.unlockWhenTimeExpired(user)) {

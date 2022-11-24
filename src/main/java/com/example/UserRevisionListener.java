@@ -8,9 +8,13 @@ public class UserRevisionListener implements RevisionListener {
 
     @Override
     public void newRevision(Object revisionEntity) {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = Optional.of(principal.getUsername()).orElse(null);
-
+        String username;
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            username = Optional.of(principal.getUsername()).orElse(null);
+        } else {
+            username = "anonymous";
+        }
         UserRevEntity exampleRevEntity = (UserRevEntity) revisionEntity;
 
         exampleRevEntity.setUsername(username);
